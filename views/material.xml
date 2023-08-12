@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="material_creation_request_view_form" model="ir.ui.view">
+            <field name="name">material.creation.request.view.form</field>
+            <field name="model">material.creation.request</field>
+            <field name="arch" type="xml">
+                <form string="Material Creation Request">
+                    <header>
+                        <button name="action_submit" string="SUBMIT" type="object" class="btn-primary" attrs="{'invisible': [('state', 'not in', ['draft'])]}"/>
+                        <button name="to_approve" string="SUBMIT" type="object" class="btn-primary" attrs="{'invisible': [('state', 'not in', ['vendor'])]}"/>
+                        <button name="select_suplier" string="APPROVE" type="object" class="btn-primary" attrs="{'invisible': [('state', 'not in', ['to_approve'])]}" groups="material_creation_request.group_material_creation_manager"/>
+                        <button name="action_cancel" string="CANCEL" confirm="Are You Sure To Cancel This MCR?" type="object" class="btn-danger" attrs="{'invisible': [('state', 'in', ['done','draft','cancel'])]}"/>
+                        <button name="set_to_draft" string="SET TO DRAFT" type="object" class="btn-primary" attrs="{'invisible': [('state', 'not in', ['cancel'])]}"/>
+                        <button name="create_partner" string="CREATE SUPLIER" type="object" class="btn-primary" attrs="{'invisible': ['|',('state', 'not in', ['done']),'|',('is_new_vendor','=',False),('is_partner','=',True)]}"/>
+                        <field name="is_partner" invisible="1"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,vendor,to_approve,final,done"/>
+                    </header>
+                    <sheet>
+                    <widget name="web_ribbon" title="CANCEL" bg_color="bg-danger" attrs="{'invisible': [('state', '!=', 'cancel')]}"/>
+                    <div class="oe_title">
+                        <label string="Material Creation Form" nolabel="1" for="code"/>
+                        <h1>
+                            <field name="code" readonly='1'/>
+                        </h1>
+                    </div>
+                        <group>
+                            <group>
+                                <field name="material_name" required="1"/>
+                                <field name="material_type" required="1"/>
+                            </group>
+                            <group>
+                                <field name="created_date" required="1" readonly="1"/>
+                                <field name="price" required="1"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Suplier">
+                                <group attrs="{'invisible' : [('state', 'not in', ['vendor'])]}">
+                                    <button name="add_suplier" string="ADD SUPLIER" class="oe_highlight" type="object"/>
+                                </group>
+                                <field name="suplier_ids">
+                                    <tree create="0" edit="0">
+                                        <field name="is_new_vendor"/>
+                                        <field name="name"/>
+                                    </tree>
+                                    <form string="Form Suplier">
+                                        <group>
+                                            <group>
+                                                <field name="partner_id"/>
+                                                <field name="name"/>
+                                            </group>
+                                        </group>
+                                    </form>
+                                </field>
+                            </page>
+                            <page string="Other Information">
+                                <group>
+                                    <field name="suplier_id" readonly="1"/>
+                                    <field name="is_new_vendor" readonly="1"/>
+                                    <field name="partner_id" readonly="1" attrs="{'invisible' : [('is_new_vendor', '=', False)]}"/>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_mcr_search" model="ir.ui.view">
+            <field name="name">mcr.search</field>
+            <field name="model">material.creation.request</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="material_type"/>
+                    <field name="name"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Status" name="state" domain="[]" context="{'group_by': 'state'}"/>
+                        <filter string="Material Type" name="state" domain="[]" context="{'group_by': 'material_type'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="mcr_view_filter" model="ir.ui.view">
+            <field name="name">mcr.view.filter</field>
+            <field name="model">material.creation.request</field>
+            <field name="arch" type="xml">
+                <search string="Search MCR Output">
+                    <filter name="fabric" string="Fabric" domain="[('material_type', '=', 'fabric')]"/>
+                    <filter name="jeans" string="Jeans" domain="[('material_type', '=', 'jeans')]"/>
+                    <filter name="cotton" string="Cotton" domain="[('material_type', '=', 'cotton')]"/>
+                </search>
+            </field>
+        </record>
+
+        <!-- material.creation.request tree view -->
+        <record id="material_creation_request_view_tree" model="ir.ui.view">
+            <field name="name">material.creation.request.view.tree</field>
+            <field name="model">material.creation.request</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="code"/>
+                    <field name="material_type"/>
+                    <field name="price"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="material_creation_request_action" model="ir.actions.act_window">
+            <field name="name">Material Creation Request</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">material.creation.request</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    <!-- Add Text Here -->
+                </p><p>
+                    <!-- More details about what a user can do with this object will be OK --> 
+                
+                </p>
+            </field>
+        </record>
+    </data>
+</odoo>

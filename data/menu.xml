@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <menuitem id="mcr_menu_root" 
+                name="Material Creation Request" 
+                sequence="10"
+        />
+        <menuitem id="material_creation_request_menu_act"
+                name="Request Material" 
+                parent="mcr_menu_root"
+                action="material_creation_request_action"
+                sequence="2"/>
+    </data>
+</odoo>

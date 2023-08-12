@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- model.name form view -->
+        <record id="submit_vendor_wizards_view" model="ir.ui.view">
+            <field name="name">submit.vendor.wizard.view</field>
+            <field name="model">create.suplier.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Submit Vendor">
+                    <sheet>
+                    <group>
+                        <group>
+                            <field name="mcr_active_id" invisible="1"/>
+                            <field name="is_new_vendor" force_save="1"/>
+                            <field string="Suplier" name="partner_id" options="{'no_quick_create': True, 'no_create_edit' : True}" attrs="{'invisible' : [('is_new_vendor', '=', True)]}" force_save="1"/>
+                            <field name="new_partner_name" default_focus="1" placeholder="Name" attrs="{'invisible' : [('is_new_vendor', '=', False)]}"/>
+                                <label for="street" string="Address" attrs="{'invisible' : [('is_new_vendor', '=', False)]}"/>
+                                <div class="o_address_format" attrs="{'invisible' : [('is_new_vendor', '=', False)]}">
+                                    <field name="street" placeholder="Street..." class="o_address_street"/>
+                                    <field name="street2" placeholder="Street 2..." class="o_address_street"/>
+                                    <field name="city" placeholder="City" class="o_address_city"/>
+                                    <field name="state_id" class="o_address_state" placeholder="State" options='{"no_open": True, "no_create": True}'/>
+                                    <field name="zip" placeholder="ZIP" class="o_address_zip"/>
+                                    <field name="country_id" placeholder="Country" class="o_address_country" options='{"no_open": True, "no_create": True}'/>
+                                </div>
+                        </group>
+                        <group attrs="{'invisible' : [('is_new_vendor', '=', False)]}">
+                            <field name="phone" widget="phone"/>
+                            <field name="mobile" widget="phone"/>
+                            <field name="email" widget="email" context="{'gravatar_image': True}"/>
+                            <field name="website" widget="url" placeholder="e.g. https://www.odoo.com"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button string="SUBMIT" name="action_submit" type="object" class="oe_highlight"/> 
+                        <button string="Cancel" special="cancel" class="oe_link"/>
+                    </footer>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="choose_sup_wizards_view" model="ir.ui.view">
+            <field name="name">choose.sup.wizard.view</field>
+            <field name="model">choose.suplier</field>
+            <field name="arch" type="xml">
+                <form string="Choose Vendor">
+                    <sheet>
+                    <group>
+                        <field name="mcr_active_id" invisible="1"/>
+                        <field name="is_new_vendor" invisible="0"/>
+                        <field name="suplier_id" required="1"/>
+                    </group>
+                    <footer>
+                        <button string="APPROVE" name="action_approve" type="object" class="oe_highlight"/> 
+                        <button string="Cancel" special="cancel" class="oe_link"/>
+                    </footer>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_material_creation_request,material.creation.request,model_material_creation_request,base.group_user,1,1,1,1
+access_material_suplier,material.suplier,model_material_suplier,base.group_user,1,1,1,1
+access_create_suplier_wizard,create.suplier.wizard,model_create_suplier_wizard,base.group_user,1,1,1,1
+access_choose_suplier,choose.suplier,model_choose_suplier,base.group_user,1,1,1,1
